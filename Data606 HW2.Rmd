@@ -1,0 +1,267 @@
+---
+title: "Data606 HW2"
+author: "Ritesh Lohiya"
+date: "February 17, 2018"
+output: html_document
+---
+ 
+Data 606 Homework 2
+2.6, 2.8, 2.20, 2.30, 2.38, 2.44
+
+2.6 Dice rolls. If you roll a pair of fair dice, what is the probability of
+
+(a) getting a sum of 1?
+
+Answer: Zero. Minimum number with the pair of dice is 2
+
+(b) getting a sum of 5?
+
+Answer: Combinations are (1,4), (2,3), (3,2), (4,1). So probability of getting a sum of 5 is 4/36 = 1/9
+
+(c) getting a sum of 12?
+
+Answer: Combination is (6,6).So probability of getting a sum of 12 is 1/36
+
+2.8 Poverty and language. The American Community Survey is an ongoing survey that
+provides data every year to give communities the current information they need to plan investments and services. The 2010 American Community Survey estimates that 14.6% of Americans live below the poverty line, 20.7% speak a language other than English (foreign language) at home, and 4.2% fall into both categories.
+
+(a) Are living below the poverty line and speaking a foreign language at home disjoint?
+
+Answer: No because there are 4.2% fall into both living below the proverty line and speaking a foreign language.
+
+(b) Draw a Venn diagram summarizing the variables and their associated probabilities.
+
+Answer:
+
+
+```{r}
+library(venneuler)
+```
+
+```{r}
+Venn <- venneuler(c(Poor=146, Foreign=207,"Poor&Foreign"=42))
+Venn$labels <- c("Poor\n14.6","Foreign\n20.7")
+plot(Venn)
+```
+
+(c) What percent of Americans live below the poverty line and only speak English at home?
+
+Answer:
+```{r}
+14.6-4.2
+```
+
+(d) What percent of Americans live below the poverty line or speak a foreign language at home?
+
+Answer:
+```{r}
+14.6+20.7-4.2
+```
+
+(e) What percent of Americans live above the poverty line and only speak English at home?
+
+Answer:
+```{r}
+100-(14.6+20.7-4.2)
+```
+
+(f) Is the event that someone lives below the poverty line independent of the event that the person speaks a foreign language at home?
+
+Answer:
+The event that someone lives below the poverty line is not independent of the event that the person speaks a foreign language at home.
+
+
+2.20 Assortative mating. Assortative mating is a nonrandom mating pattern where individuals
+with similar genotypes and/or phenotypes mate with one another more frequently than what would be expected under a random mating pattern. Researchers studying this topic collected data on eye colors of 204 Scandinavian men and their female partners. The table below summarizes the results. For simplicity, we only include heterosexual relationships in this exercise.
+Partner (female)
+Blue Brown Green Total
+Blue 78 23 13 114
+Self (male)
+Brown 19 23 12 54
+Green 11 9 16 36
+Total 108 55 41 204
+
+(a) What is the probability that a randomly chosen male respondent or his partner has blue eyes?
+
+Answer:
+```{r}
+(114+19+11)/204
+```
+
+(b) What is the probability that a randomly chosen male respondent with blue eyes has a partner with blue eyes?
+
+Answer:
+```{r}
+(78/114)
+```
+
+(c) What is the probability that a randomly chosen male respondent with brown eyes has a partner with blue eyes? 
+
+Answer:
+```{r}
+(19/54)
+```
+
+What about the probability of a randomly chosen male respondent with green eyes having a partner with blue eyes?
+
+Answer:
+```{r}
+(11/36)
+```
+
+(d) Does it appear that the eye colors of male respondents and their partners are independent?Explain your reasoning.
+
+Answer: The eye colors of male respondents and their partners are NOT independent. 
+
+P(blue male | blue female) = P(blue male) * P(blue female)
+(78/204) = (114/204) * (108/204). Since these are not equal The eye colors of male respondents and their partners are NOT independent
+
+
+2.30 Books on a bookshelf. The table below shows the distribution of books on a bookcase
+based on whether they are nonfiction or fiction and hardcover or paperback.
+Format
+Hardcover Paperback Total
+Type
+Fiction 13 59 72
+Nonfiction 15 8 23
+Total 28 67 95
+
+(a) Find the probability of drawing a hardcover book first then a paperback fiction book second when drawing without replacement.
+
+Answer:
+```{r}
+(28/95) * (59/94)
+```
+
+(b) Determine the probability of drawing a fiction book first and then a hardcover book second,when drawing without replacement.
+
+Answer:
+```{r}
+(72/95) * (28/94)
+```
+
+(c) Calculate the probability of the scenario in part (b), except this time complete the calculations under the scenario where the first book is placed back on the bookcase before randomly drawing the second book.
+
+Answer:
+```{r}
+(72/95) * (28/95)
+```
+
+(d) The final answers to parts (b) and (c) are very similar. Explain why this is the case.
+
+Answer:The final answers to parts (b) and (c) are very similar because the possible events are considerable large so the outcome will not be affected by much.
+
+
+2.38 Baggage fees. An airline charges the following baggage fees: $25 for the first bag and
+$35 for the second. Suppose 54% of passengers have no checked luggage, 34% have one piece of
+checked luggage and 12% have two pieces. We suppose a negligible portion of people check more than two bags.
+
+(a) Build a probability model, compute the average revenue per passenger, and compute the
+corresponding standard deviation.
+
+Answer: 
+
+```{r}
+bag_piece <- c(0, 1, 2)
+bag0 <- 0
+bag1 <- 25
+bag2 <- bag1 + 10
+bag_fee <- c(bag0, bag1, bag2)
+bag_percent <- c(0.54, 0.34, 0.12)
+bag_revenue_per_person <- sum(bag_fee * bag_percent)
+bag_revenue_per_person
+```
+
+```{r}
+variance <- (25^2*.34 + 35^2*.12) - 12.7^2
+variance
+standart_deviation <- sqrt(variance)
+standart_deviation
+```
+Revenue per person is $12.7, Variance is 198.21 and the standard deviation is 14.07871
+
+(b) About how much revenue should the airline expect for a flight of 120 passengers? With what standard deviation? Note any assumptions you make and if you think they are justified.
+
+Answer: 
+
+```{r}
+revenue_120 <- 12.7 * 120
+revenue_120
+standart_deviation_120 <- sqrt(variance * 120)
+standart_deviation_120
+```
+The expected revenue for the 120 passengers is $1524. The standard deviation will be $154.2245
+
+
+2.44 Income and gender. The relative frequency table below displays the distribution of
+annual total personal income (in 2009 inflation-adjusted dollars) for a representative sample of 96,420,486 Americans. These data come from the American Community Survey for 2005-2009.
+
+This sample is comprised of 59% males and 41% females.
+
+Income Total
+$1 to $9,999 or loss 2.2%
+$10,000 to $14,999 4.7%
+$15,000 to $24,999 15.8%
+$25,000 to $34,999 18.3%
+$35,000 to $49,999 21.2%
+$50,000 to $64,999 13.9%
+$65,000 to $74,999 5.8%
+$75,000 to $99,999 8.4%
+$100,000 or more 9.7%
+
+(a) Describe the distribution of total personal income.
+
+Answer:
+
+```{r}
+income <- c("$1 to $9,999","$10,000 to $14,999","$15,000 to $24,999","$25,000 to $34,999","$35,000 to $49,999","$50,000 to $64,999","$65,000 to $74,999","$75,000 to $99,999","$100,000 or more")
+
+total <- c(2.2,4.7,15.8,18.3,21.2,13.9,5.8,8.4,9.7)
+
+distribution <- data.frame(income, total)
+distribution
+```
+
+```{r}
+barplot(distribution$total, names.arg=income)
+```
+
+This looks like normal continuous distribution.
+
+(b) What is the probability that a randomly chosen US resident makes less than $50,000 per year?
+
+Answer: 
+
+```{r}
+sum(distribution[1:5,2]/100)
+```
+
+(c) What is the probability that a randomly chosen US resident makes less than $50,000 per year and is female? Note any assumptions you make.
+
+Answer: 
+
+The sample has 41% females
+
+```{r}
+0.622 * 0.41
+```
+
+The probability that a randomly chosen US resident makes less than $50,000 per year and is female is 0.25502
+
+Assumption: The probability of an income of less than $50,000 and being female are independent events.
+
+
+(d) The same data source indicates that 71.8% of females make less than $50,000 per year. Use this value to determine whether or not the assumption you made in part (c) is valid.
+
+Answer: If 71.8% of females make less than $50,000 per year the the equation will be 
+0.718 = 0.622 * 0.41, which is not correct, so we can conclude that the assumption we made for step (c) is wrong. Withe the equation it looks like events are not independent.
+
+
+
+
+
+
+
+
+
+
